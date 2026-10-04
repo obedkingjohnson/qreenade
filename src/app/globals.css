@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #f2f2f0;
+  --ink: #141414;
+  --mute: #5c5c58;
+  --line: #d8d8d4;
+  --surface: #ffffff;
+  --background: var(--paper);
+  --foreground: var(--ink);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #121211;
+    --ink: #f3f3f0;
+    --mute: #a7a7a1;
+    --line: #2c2c2a;
+    --surface: #1c1c1b;
+    --background: var(--paper);
+    --foreground: var(--ink);
+  }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-mute: var(--mute);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+::selection {
+  background: #141414;
+  color: #f2f2f0;
+}
+
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.14);
+  }
+}
+
+.hero-drift {
+  animation: hero-drift 7s ease-in-out infinite alternate;
+}
+
+@keyframes product-slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.product-slide {
+  animation: product-slide 42s linear infinite;
+}
+
+.product-slide:hover {
+  animation-play-state: paused;
+}
+
+@keyframes product-pan {
+  from {
+    transform: scale(1.14) translate3d(4%, 0, 0);
+  }
+  to {
+    transform: scale(1.14) translate3d(-4%, 0, 0);
+  }
+}
+
+.product-pan {
+  animation: product-pan 9s ease-in-out infinite alternate;
+}
+
+.product-pan-reverse {
+  animation-direction: alternate-reverse;
+}
+
+.logo-on-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-on-light {
+    display: none;
+  }
+
+  .logo-on-dark {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-drift,
+  .product-slide,
+  .product-pan {
+    animation: none;
+  }
+}
