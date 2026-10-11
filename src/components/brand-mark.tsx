@@ -9,7 +9,7 @@ export function BrandMark({
   priority?: boolean;
 }) {
   return (
-    <span className={cn("relative block h-8 w-[11.5rem]", className)}>
+    <span className={cn("relative block", className ?? "h-8 w-[11.5rem]")}>
       <Image
         src="/brand/logo-black.png"
         alt="qreenade by Amuta"

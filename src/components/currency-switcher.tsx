@@ -15,7 +15,7 @@ export function CurrencySwitcher({ id }: { id?: string }) {
         const next = event.target.value;
         if (isDisplayCurrency(next)) setCurrency(next);
       }}
-      className="h-10 rounded-full border border-line bg-paper px-3 text-sm text-ink"
+      className="h-10 shrink-0 rounded-full border border-line bg-paper px-2.5 text-sm text-ink sm:px-3"
     >
       {DISPLAY_CURRENCIES.map((code) => (
         <option key={code} value={code}>

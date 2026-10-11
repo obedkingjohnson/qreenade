@@ -162,7 +162,7 @@ export function Header() {
       <header ref={headerRef} className="sticky top-0 z-40 border-b border-line bg-paper">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-4 px-4 md:px-6">
           <Link href="/" className="shrink-0" aria-label="qreenade by Amuta">
-            <BrandMark priority />
+            <BrandMark priority className="h-8 w-[8.25rem] sm:w-[11.5rem]" />
           </Link>
 
           <nav className="ml-6 hidden items-center gap-6 lg:flex" aria-label="Primary">
@@ -271,9 +271,7 @@ export function Header() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 lg:ml-3">
-            <div className="hidden sm:block">
-              <CurrencySwitcher />
-            </div>
+            <CurrencySwitcher />
             <button
               type="button"
               className="grid size-10 place-items-center rounded-full hover:bg-surface lg:hidden"
@@ -382,10 +380,6 @@ export function Header() {
       {menuOpen && (
         <div ref={menuRef} className="fixed inset-0 z-30 overflow-y-auto bg-paper pt-16 lg:hidden">
           <nav className="flex flex-col overflow-y-auto px-6 py-8" aria-label="Mobile">
-            <div className="flex items-center justify-between gap-4 border-b border-line py-4 sm:hidden">
-              <span className="text-sm">Currency</span>
-              <CurrencySwitcher id="mobile-currency" />
-            </div>
             {links.map((link) =>
               link.shop ? (
                 <div key={link.href} className="border-b border-line">
