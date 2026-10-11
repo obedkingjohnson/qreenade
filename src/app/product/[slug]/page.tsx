@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToBag } from "@/components/add-to-bag";
+import { AiTryOn } from "@/components/ai-try-on";
 import { ProductCard } from "@/components/product-card";
 import { TryOn } from "@/components/try-on";
 import {
@@ -64,6 +65,7 @@ export default async function ProductPage({ params }: Props) {
           <p className="mt-4 max-w-[46ch] leading-relaxed text-mute">
             {product.summary}
           </p>
+          <AiTryOn slug={product.slug} name={product.name} />
           <AddToBag slug={product.slug} category={product.category} />
         </div>
       </div>
