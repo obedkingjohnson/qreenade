@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { CategoryRail } from "@/components/category-rail";
 import { ProductReel } from "@/components/product-reel";
-import { ProductOrbit } from "@/components/product-orbit";
 import { ScrollRevealImage } from "@/components/scroll-reveal-image";
 import { Testimonials } from "@/components/testimonials";
 import { campaign, products } from "@/lib/catalog";
@@ -14,7 +13,6 @@ export default function HomePage() {
       <Hero />
       <CategoryRail />
       <ProductReel products={products} />
-      <ProductOrbit />
 
       <section className="overflow-x-clip border-t border-line py-16 md:py-24">
         <ScrollRevealImage
