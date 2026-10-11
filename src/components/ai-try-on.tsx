@@ -113,7 +113,7 @@ export function AiTryOn({ slug, name }: { slug: string; name: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mt-8 flex h-12 w-full items-center justify-center rounded-full border border-ink text-sm text-ink active:scale-[0.98] md:w-auto md:px-10"
+        className="absolute bottom-4 left-4 inline-flex h-11 items-center rounded-full bg-white px-4 text-sm text-[#141414] active:scale-[0.98]"
       >
         Try it on
       </button>
