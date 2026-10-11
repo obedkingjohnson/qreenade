@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { formatNaira } from "@/lib/format";
+import { Price } from "@/components/price";
 import { UK_FREE_DELIVERY } from "@/lib/catalog";
 
 export const metadata: Metadata = {
@@ -15,8 +15,8 @@ export default function ShippingPage() {
         <section>
           <h2 className="text-xl tracking-tight">Delivery</h2>
           <p className="mt-3 max-w-[36ch] leading-relaxed text-mute">
-            UK orders from {formatNaira(UK_FREE_DELIVERY)} include delivery.
-            Express shipping is charged separately.
+            UK orders from <Price amount={UK_FREE_DELIVERY} /> include delivery.
+            Express shipping is charged separately. Orders are charged in naira.
           </p>
         </section>
         <section>

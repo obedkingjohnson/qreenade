@@ -12,10 +12,11 @@ import {
   X,
 } from "@phosphor-icons/react";
 import { BrandMark } from "@/components/brand-mark";
-import { categories, getProduct, heroSlides, searchProducts } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
-import { useCart } from "@/components/cart-provider";
 import { BagDrawer } from "@/components/bag-drawer";
+import { CurrencySwitcher } from "@/components/currency-switcher";
+import { Price } from "@/components/price";
+import { useCart } from "@/components/cart-provider";
+import { categories, getProduct, heroSlides, searchProducts } from "@/lib/catalog";
 
 const links = [
   { href: "/", label: "Home", shop: false },
@@ -83,7 +84,11 @@ function StoreMenu({ onNavigate }: { onNavigate: (href: string) => void }) {
         />
         <div className="absolute inset-x-0 bottom-0 flex flex-col items-start gap-3 bg-gradient-to-t from-[#141414] via-[#141414]/80 to-transparent px-5 pt-24 pb-5">
           <p className="text-3xl tracking-tight text-white">{feature.title}</p>
-          {featured && <p className="text-sm text-white/90">{formatNaira(featured.price)}</p>}
+          {featured && (
+            <p className="text-sm text-white/90">
+              <Price amount={featured.price} />
+            </p>
+          )}
           <Link
             href={feature.href}
             onClick={(event) => {
@@ -252,7 +257,7 @@ export function Header() {
                                 {product.name}
                               </span>
                               <span className="text-xs text-mute">
-                                {formatNaira(product.price)}
+                                <Price amount={product.price} />
                               </span>
                             </span>
                           </Link>
@@ -266,6 +271,9 @@ export function Header() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 lg:ml-3">
+            <div className="hidden sm:block">
+              <CurrencySwitcher />
+            </div>
             <button
               type="button"
               className="grid size-10 place-items-center rounded-full hover:bg-surface lg:hidden"
@@ -374,6 +382,10 @@ export function Header() {
       {menuOpen && (
         <div ref={menuRef} className="fixed inset-0 z-30 overflow-y-auto bg-paper pt-16 lg:hidden">
           <nav className="flex flex-col overflow-y-auto px-6 py-8" aria-label="Mobile">
+            <div className="flex items-center justify-between gap-4 border-b border-line py-4 sm:hidden">
+              <span className="text-sm">Currency</span>
+              <CurrencySwitcher id="mobile-currency" />
+            </div>
             {links.map((link) =>
               link.shop ? (
                 <div key={link.href} className="border-b border-line">

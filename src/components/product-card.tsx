@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { Price } from "@/components/price";
 import { ScrollIn, ScrollPhoto } from "@/components/scroll-in";
 
 export function ProductCard({
@@ -25,7 +25,9 @@ export function ProductCard({
         </ScrollPhoto>
         <div className="mt-3 flex items-baseline justify-between gap-3">
           <h3 className="text-sm">{product.name}</h3>
-          <p className="shrink-0 text-sm text-mute">{formatNaira(product.price)}</p>
+          <p className="shrink-0 text-sm text-mute">
+            <Price amount={product.price} />
+          </p>
         </div>
       </Link>
     </ScrollIn>

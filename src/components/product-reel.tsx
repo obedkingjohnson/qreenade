@@ -6,7 +6,7 @@ import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ScrollIn } from "@/components/scroll-in";
 import type { Product } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { Price } from "@/components/price";
 
 export function ProductReel({ products }: { products: Product[] }) {
   const sectionRef = useRef<HTMLElement>(null);
@@ -50,7 +50,7 @@ export function ProductReel({ products }: { products: Product[] }) {
               <div className="mt-3 flex items-baseline justify-between gap-3">
                 <h3 className="text-sm">{product.name}</h3>
                 <p className="shrink-0 text-sm text-mute">
-                  {formatNaira(product.price)}
+                  <Price amount={product.price} />
                 </p>
               </div>
             </Link>

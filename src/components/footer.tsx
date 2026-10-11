@@ -68,7 +68,7 @@ export function Footer() {
       <div className="border-t border-line px-4 py-4 text-xs text-mute md:px-6">
         <div className="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-2">
           <p>qreenade TM</p>
-          <p>Prices in Nigerian naira.</p>
+          <p>Charged in naira.</p>
         </div>
       </div>
     </footer>

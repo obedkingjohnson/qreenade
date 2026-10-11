@@ -12,7 +12,7 @@ import {
   useTransform,
 } from "motion/react";
 import { getProduct, heroSlides } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { Price } from "@/components/price";
 
 const SLIDE_MS = 5200;
 
@@ -90,7 +90,7 @@ export function Hero() {
                     {slide.title}
                   </h1>
                   <p className="text-base text-white/90">
-                    {product ? formatNaira(product.price) : "Made to order in Lagos."}
+                    {product ? <Price amount={product.price} /> : "Made to order in Lagos."}
                   </p>
                   <Link
                     href={slide.href}
