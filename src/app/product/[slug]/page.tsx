@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { AddToBag } from "@/components/add-to-bag";
+import { AiTryOn } from "@/components/ai-try-on";
 import { ProductCard } from "@/components/product-card";
 import { ProductGallery } from "@/components/product-gallery";
 import {
@@ -61,7 +62,7 @@ export default async function ProductPage({ params }: Props) {
         )}
       </p>
       <div className="mt-6 grid items-start gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-        <ProductGallery product={product} />
+        <ProductGallery key={product.slug} product={product} />
         <div className="lg:sticky lg:top-24">
           <h1 className="text-4xl tracking-tight md:text-5xl">{product.name}</h1>
           <p className="mt-4 text-lg">
@@ -70,7 +71,9 @@ export default async function ProductPage({ params }: Props) {
           <p className="mt-4 max-w-[46ch] leading-relaxed text-mute">
             {product.summary}
           </p>
-          <AddToBag slug={product.slug} category={product.category} />
+          <AddToBag slug={product.slug} category={product.category}>
+            <AiTryOn slug={product.slug} name={product.name} />
+          </AddToBag>
         </div>
       </div>
 

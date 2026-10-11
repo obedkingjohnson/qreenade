@@ -113,7 +113,7 @@ export function AiTryOn({ slug, name }: { slug: string; name: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="absolute bottom-4 left-4 inline-flex h-11 items-center rounded-full bg-white px-4 text-sm text-[#141414] active:scale-[0.98]"
+        className="inline-flex h-12 items-center justify-center rounded-full border border-line px-5 text-sm active:scale-[0.98]"
       >
         Try it on
       </button>
@@ -281,26 +281,31 @@ function Result({
               alt={`AI try-on of ${name}`}
               className="max-h-[28rem] w-full bg-surface object-contain"
             />
-            <button
-              type="button"
-              onClick={() => downloadImage(src, index)}
-              className="mt-3 inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm text-paper active:scale-[0.98]"
-            >
-              {images.length > 1 ? `Download ${index + 1}` : "Download"}
-            </button>
           </li>
         ))}
       </ul>
       <p className="mt-4 text-sm leading-relaxed text-mute">
         AI-generated visualisation, not a guarantee of fit.
       </p>
-      <button
-        type="button"
-        onClick={onAgain}
-        className="mt-4 inline-flex h-11 items-center rounded-full border border-line px-5 text-sm"
-      >
-        Try another photo
-      </button>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
+        {images.map((src, index) => (
+          <button
+            key={`download-${index}`}
+            type="button"
+            onClick={() => downloadImage(src, index)}
+            className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm text-paper active:scale-[0.98]"
+          >
+            {images.length > 1 ? `Download ${index + 1}` : "Download"}
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={onAgain}
+          className="inline-flex h-11 items-center rounded-full border border-line px-5 text-sm"
+        >
+          Try another photo
+        </button>
+      </div>
     </div>
   );
 }

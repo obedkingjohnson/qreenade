@@ -2,29 +2,30 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { AiTryOn } from "@/components/ai-try-on";
 import type { Product } from "@/lib/catalog";
 
 export function ProductGallery({ product }: { product: Product }) {
   const shots = product.gallery?.length ? product.gallery : [product.image];
   const [shot, setShot] = useState(0);
+  const selected = shots[shot] ?? shots[0];
 
   return (
     <div>
       <div className="relative overflow-hidden bg-surface">
         <Image
-          src={shots[shot]}
+          key={selected}
+          src={selected}
           alt={product.name}
           width={1200}
           height={1500}
           priority={shot === 0}
+          sizes="(min-width: 1024px) 55vw, 100vw"
           className={
-            shots[shot].endsWith("bucket-hat-red.jpg")
+            selected.endsWith("bucket-hat-red.jpg")
               ? "h-auto w-full"
               : "aspect-[4/5] w-full object-cover"
           }
         />
-        <AiTryOn slug={product.slug} name={product.name} />
       </div>
       {shots.length > 1 && (
         <div className="mt-3 flex gap-2 overflow-x-auto">
