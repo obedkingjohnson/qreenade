@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus } from "@phosphor-icons/react";
-import { getProduct, UK_FREE_DELIVERY } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { getProduct } from "@/lib/catalog";
+import { DeliveryNote } from "@/components/delivery-note";
+import { Price } from "@/components/price";
 import { useCart } from "@/components/cart-provider";
 
 export function CartView() {
@@ -56,7 +57,9 @@ export function CartView() {
                   <Link href={`/product/${product.slug}`} className="text-base">
                     {product.name}
                   </Link>
-                  <p>{formatNaira(product.price * line.qty)}</p>
+                  <p>
+                    <Price amount={product.price * line.qty} />
+                  </p>
                 </div>
                 <p className="mt-1 text-sm text-mute">{line.size}</p>
                 <div className="mt-4 flex items-center justify-between">
@@ -96,13 +99,11 @@ export function CartView() {
         <h2 className="text-base">Summary</h2>
         <div className="mt-4 flex items-baseline justify-between">
           <span className="text-sm text-mute">Subtotal</span>
-          <span>{formatNaira(subtotal)}</span>
+          <span>
+            <Price amount={subtotal} />
+          </span>
         </div>
-        <p className="mt-3 text-sm leading-relaxed text-mute">
-          {subtotal >= UK_FREE_DELIVERY
-            ? "UK delivery is included. Express is charged separately."
-            : `UK delivery is included from ${formatNaira(UK_FREE_DELIVERY)}. Express is charged separately.`}
-        </p>
+        <DeliveryNote subtotal={subtotal} className="mt-3 text-sm leading-relaxed text-mute" />
         <p className="mt-4 text-sm leading-relaxed text-mute">
           Checkout is handled by the studio. Email the order from the contact
           page and the team will confirm it.

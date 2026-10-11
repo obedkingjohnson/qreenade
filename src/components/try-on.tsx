@@ -112,15 +112,15 @@ export function TryOn({ product }: { product: Product }) {
           </button>
         </div>
         {shots.length > 1 && (
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 flex gap-2 overflow-x-auto">
             {shots.map((src, index) => (
               <button
-                key={src}
+                key={`${src}-${index}`}
                 type="button"
                 aria-label={`Photo ${index + 1} of ${product.name}`}
                 aria-pressed={shot === index}
                 onClick={() => setShot(index)}
-                className={`overflow-hidden border ${shot === index ? "border-ink" : "border-transparent"}`}
+                className={`shrink-0 overflow-hidden border ${shot === index ? "border-ink" : "border-transparent"}`}
               >
                 <Image
                   src={src}

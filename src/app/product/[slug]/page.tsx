@@ -10,7 +10,10 @@ import {
   products,
   productsIn,
 } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { Price } from "@/components/price";
+import { formatFromNgn } from "@/lib/currency";
+import { getDisplayCurrency } from "@/lib/currency-request";
+import { getFxRates } from "@/lib/fx";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -22,9 +25,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return { title: "Piece" };
+  const [currency, rates] = await Promise.all([getDisplayCurrency(), getFxRates()]);
   return {
     title: product.name,
-    description: `${product.name}. ${formatNaira(product.price)}. ${product.summary}`,
+    description: `${product.name}. ${formatFromNgn(product.price, currency, rates)}. ${product.summary}`,
   };
 }
 
@@ -60,7 +64,9 @@ export default async function ProductPage({ params }: Props) {
         <TryOn product={product} />
         <div className="lg:sticky lg:top-24">
           <h1 className="text-4xl tracking-tight md:text-5xl">{product.name}</h1>
-          <p className="mt-4 text-lg">{formatNaira(product.price)}</p>
+          <p className="mt-4 text-lg">
+            <Price amount={product.price} />
+          </p>
           <p className="mt-4 max-w-[46ch] leading-relaxed text-mute">
             {product.summary}
           </p>

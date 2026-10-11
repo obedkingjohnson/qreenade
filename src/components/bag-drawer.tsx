@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Minus, Plus, X } from "@phosphor-icons/react";
-import { getProduct, UK_FREE_DELIVERY } from "@/lib/catalog";
-import { formatNaira } from "@/lib/format";
+import { getProduct } from "@/lib/catalog";
+import { DeliveryNote } from "@/components/delivery-note";
+import { Price } from "@/components/price";
 import { useCart } from "@/components/cart-provider";
 
 export function BagDrawer({
@@ -83,7 +84,7 @@ export function BagDrawer({
                           {product.name}
                         </Link>
                         <p className="text-sm">
-                          {formatNaira(product.price * line.qty)}
+                          <Price amount={product.price * line.qty} />
                         </p>
                       </div>
                       <p className="mt-1 text-xs text-mute">{line.size}</p>
@@ -129,13 +130,14 @@ export function BagDrawer({
             <div className="border-t border-line px-5 py-5">
               <div className="flex items-baseline justify-between">
                 <span className="text-sm">Subtotal</span>
-                <span className="text-base">{formatNaira(subtotal)}</span>
+                <span className="text-base">
+                  <Price amount={subtotal} />
+                </span>
               </div>
-              <p className="mt-2 text-xs leading-relaxed text-mute">
-                {subtotal >= UK_FREE_DELIVERY
-                  ? "UK delivery is included. Express is charged separately."
-                  : `UK delivery is included from ${formatNaira(UK_FREE_DELIVERY)}. Express is charged separately.`}
-              </p>
+              <DeliveryNote
+                subtotal={subtotal}
+                className="mt-2 text-xs leading-relaxed text-mute"
+              />
               <Link
                 href="/cart"
                 onClick={onClose}

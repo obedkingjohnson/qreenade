@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/cart-provider";
+import { CurrencyProvider } from "@/components/currency-provider";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { Price } from "@/components/price";
+import { UK_FREE_DELIVERY } from "@/lib/catalog";
+import { getDisplayCurrency } from "@/lib/currency-request";
+import { getFxRates } from "@/lib/fx";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -19,7 +24,9 @@ export const metadata: Metadata = {
     "Slow fashion by Amuta. Dresses, skirts, sets, and bags made to order in Lagos.",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default async function RootLayout({ children }: LayoutProps<"/">) {
+  const [currency, rates] = await Promise.all([getDisplayCurrency(), getFxRates()]);
+
   return (
     <html lang="en" className={`${outfit.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
@@ -29,16 +36,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <CartProvider>
-          <p className="border-b border-line px-4 py-2 text-center text-xs text-mute">
-            Free UK delivery from ₦300,000. Express is charged separately.
-          </p>
-          <Header />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
-        </CartProvider>
+        <CurrencyProvider initialCurrency={currency} rates={rates}>
+          <CartProvider>
+            <p className="border-b border-line px-4 py-2 text-center text-xs text-mute">
+              Free UK delivery from <Price amount={UK_FREE_DELIVERY} />. Express is
+              charged separately.
+            </p>
+            <Header />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

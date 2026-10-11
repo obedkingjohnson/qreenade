@@ -72,6 +72,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<CartContextValue>(() => {
     const count = visibleLines.reduce((sum, line) => sum + line.qty, 0);
+    // Subtotal stays in naira. Converted figures are display only.
     const subtotal = visibleLines.reduce((sum, line) => {
       const product = getProduct(line.slug);
       return sum + (product ? product.price * line.qty : 0);
