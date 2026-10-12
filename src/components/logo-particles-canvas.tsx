@@ -183,7 +183,7 @@ export default function LogoParticlesCanvas() {
     };
 
     const step = (dt: number, now: number) => {
-      const radius = Math.max(68, Math.min(112, logoWidth * 0.15));
+      const radius = Math.max(84, Math.min(136, logoWidth * 0.2));
       const radiusSq = radius * radius;
       if (pointer.active) {
         for (const particle of particles) {
@@ -193,15 +193,15 @@ export default function LogoParticlesCanvas() {
           if (distSq >= radiusSq) continue;
           const dist = Math.sqrt(distSq) || 0.001;
           const falloff = 1 - dist / radius;
-          const push = falloff * falloff * 3.4 * dt;
+          const push = falloff * 5.6 * dt;
           if (dist < 0.001) {
             dx = 0;
             dy = -1;
           }
           particle.x += (dx / dist) * push;
           particle.y += (dy / dist) * push;
-          particle.x += pointer.vx * falloff * 0.45;
-          particle.y += pointer.vy * falloff * 0.45;
+          particle.x += pointer.vx * falloff * 0.35;
+          particle.y += pointer.vy * falloff * 0.35;
         }
         pointer.vx = 0;
         pointer.vy = 0;
@@ -392,12 +392,12 @@ export default function LogoParticlesCanvas() {
           ready ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       />
-      {/* Same element is sampled onto the canvas, so the dust matches this still. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
       <div
         ref={markRef}
-        className="pointer-events-none absolute top-1/2 left-1/2 h-28 w-[min(78vw,44rem)] -translate-x-1/2 -translate-y-1/2"
+        className="pointer-events-none absolute top-1/2 left-1/2 h-36 w-[min(78vw,44rem)] -translate-x-1/2 -translate-y-1/2"
       />
+      {/* Same element is sampled onto the canvas, so the dust matches this still. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         ref={stillRef}
         src={LOGO_SRC}
