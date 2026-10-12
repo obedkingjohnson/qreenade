@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import type { DragEvent, MouseEvent, PointerEvent, TransitionEvent } from "react";
+import type { DragEvent, MouseEvent, PointerEvent, RefObject, TransitionEvent } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import { CaretLeft, CaretRight, X } from "@phosphor-icons/react";
@@ -39,6 +39,7 @@ function slotsFor(shot: number, count: number, dragX: number) {
 }
 
 type GestureOptions = {
+  frameRef: RefObject<HTMLDivElement | null>;
   shot: number;
   count: number;
   enabled: boolean;
@@ -49,6 +50,7 @@ type GestureOptions = {
 };
 
 function useGalleryGesture({
+  frameRef,
   shot,
   count,
   enabled,
@@ -57,7 +59,6 @@ function useGalleryGesture({
   onSwipeDown,
   keyboard = false,
 }: GestureOptions) {
-  const frameRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{
     pointerId: number;
     x: number;
@@ -73,9 +74,11 @@ function useGalleryGesture({
   const onStepRef = useRef(onStep);
   const onDoubleTapRef = useRef(onDoubleTap);
   const onSwipeDownRef = useRef(onSwipeDown);
-  onStepRef.current = onStep;
-  onDoubleTapRef.current = onDoubleTap;
-  onSwipeDownRef.current = onSwipeDown;
+  useEffect(() => {
+    onStepRef.current = onStep;
+    onDoubleTapRef.current = onDoubleTap;
+    onSwipeDownRef.current = onSwipeDown;
+  });
 
   const [dragX, setDragX] = useState(0);
   const [dragY, setDragY] = useState(0);
@@ -132,7 +135,7 @@ function useGalleryGesture({
       clearTimer();
       timer.current = window.setTimeout(finishSlide, SLIDE_MS + 80);
     },
-    [clearTimer, count, finishSlide],
+    [clearTimer, count, finishSlide, frameRef],
   );
 
   useEffect(() => clearTimer, [clearTimer]);
@@ -285,7 +288,6 @@ function useGalleryGesture({
   }
 
   return {
-    frameRef,
     dragX,
     dragY,
     sliding,
@@ -319,7 +321,6 @@ function ShotPicture({
 }) {
   const shared = {
     src,
-    alt,
     sizes,
     placeholder: "blur" as const,
     blurDataURL: BLUR,
@@ -328,11 +329,12 @@ function ShotPicture({
   };
 
   if (fit === "natural") {
-    return <Image {...shared} width={807} height={568} className="h-auto w-full" />;
+    return <Image alt={alt} {...shared} width={807} height={568} className="h-auto w-full" />;
   }
 
   return (
     <Image
+      alt={alt}
       {...shared}
       fill
       className={fit === "contain" ? "object-contain" : "object-cover"}
@@ -373,7 +375,9 @@ function Filmstrip({
   commitRef?: { current: (dir: 1 | -1) => void };
   frameClassName: string;
 }) {
+  const frameRef = useRef<HTMLDivElement>(null);
   const gesture = useGalleryGesture({
+    frameRef,
     shot,
     count: shots.length,
     enabled,
@@ -382,12 +386,15 @@ function Filmstrip({
     onSwipeDown,
     keyboard,
   });
-  if (commitRef) commitRef.current = gesture.commit;
+  useEffect(() => {
+    if (!commitRef) return;
+    commitRef.current = gesture.commit;
+  }, [commitRef, gesture.commit]);
   const slots = slotsFor(shot, shots.length, gesture.dragX);
 
   return (
     <div
-      ref={gesture.frameRef}
+      ref={frameRef}
       className={`${frameClassName} ${shots.length > 1 ? "cursor-grab" : ""} ${gesture.grabbing ? "cursor-grabbing" : ""}`}
       style={{ touchAction: onSwipeDown ? "none" : "pan-y" }}
       {...gesture.bind}
@@ -449,7 +456,9 @@ function Lightbox({
   const commitRef = useRef<(dir: 1 | -1) => void>(() => {});
   const titleId = useId();
   const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   const closeFromGesture = useCallback(() => {
     const stopClick = (event: Event) => {
@@ -473,6 +482,7 @@ function Lightbox({
     document.body.style.overflow = "hidden";
     document.documentElement.style.overflow = "hidden";
     closeRef.current?.focus();
+    const focusTarget = returnFocus.current;
 
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -503,7 +513,7 @@ function Lightbox({
       document.body.style.overflow = previousBody;
       document.documentElement.style.overflow = previousHtml;
       for (const node of siblings) node.removeAttribute("inert");
-      returnFocus.current?.focus();
+      focusTarget?.focus();
     };
   }, [returnFocus]);
 
