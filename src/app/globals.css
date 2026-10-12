@@ -57,28 +57,29 @@ body {
   animation: hero-drift 7s ease-in-out infinite alternate;
 }
 
-@keyframes product-slide {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
+.product-reel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+  cursor: grab;
 }
 
-.product-slide {
-  animation: product-slide 42s linear infinite;
-  animation-play-state: paused;
+.product-reel::-webkit-scrollbar {
+  display: none;
 }
 
-.product-slide.is-running {
-  animation-play-state: running;
-  will-change: transform;
+.product-reel a {
+  cursor: grab;
 }
 
-.product-slide:hover {
-  animation-play-state: paused;
-  will-change: auto;
+.product-reel.is-dragging,
+.product-reel.is-dragging a {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.product-reel.is-running {
+  will-change: scroll-position;
 }
 
 .logo-on-dark {
@@ -100,8 +101,7 @@ body {
     scroll-behavior: auto;
   }
 
-  .hero-drift,
-  .product-slide {
+  .hero-drift {
     animation: none;
   }
 }
