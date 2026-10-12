@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { CategoryRail } from "@/components/category-rail";
 import { JsonLd } from "@/components/json-ld";
-import { ProductOrbit } from "@/components/product-orbit";
+import { LogoParticles } from "@/components/logo-particles";
 import { ProductReel } from "@/components/product-reel";
 import { ScrollRevealImage } from "@/components/scroll-reveal-image";
 import { Testimonials } from "@/components/testimonials";
@@ -22,7 +22,7 @@ export default function HomePage() {
       <Hero />
       <CategoryRail />
       <ProductReel products={products} />
-      <ProductOrbit />
+      <LogoParticles />
 
       <section className="overflow-x-clip border-t border-line py-16 md:py-24">
         <ScrollRevealImage
