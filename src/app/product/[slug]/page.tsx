@@ -66,7 +66,9 @@ export default async function ProductPage({ params }: Props) {
         )}
       </p>
       <div className="mt-6 grid items-start gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-16">
-        <ProductGallery key={product.slug} product={product} />
+        <div className="min-w-0">
+          <ProductGallery key={product.slug} product={product} />
+        </div>
         <div className="lg:sticky lg:top-24">
           <h1 className="text-4xl tracking-tight md:text-5xl">{product.name}</h1>
           <p className="mt-4 text-lg">
