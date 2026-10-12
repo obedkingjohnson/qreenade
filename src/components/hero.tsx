@@ -83,27 +83,27 @@ export function Hero() {
                 className="object-cover object-center"
               />
             </div>
-            <div className="absolute inset-x-0 bottom-0 z-10 flex items-end bg-gradient-to-t from-[#141414] via-[#141414]/75 to-transparent pb-10 pt-28 md:pb-14">
-              <div className="mx-auto flex w-full max-w-[1400px] items-end px-4 md:px-6">
-                <div className="flex max-w-xl flex-col items-start gap-5 pr-28">
-                  <h1 className="text-5xl leading-[1.05] tracking-[-0.04em] text-white md:text-6xl">
-                    {slide.title}
-                  </h1>
-                  <p className="text-base text-white/90">
-                    {product ? <Price amount={product.price} /> : "Made to order in Lagos."}
-                  </p>
-                  <Link
-                    href={slide.href}
-                    className="inline-flex h-11 items-center rounded-full bg-white px-5 text-sm text-[#141414] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-                  >
-                    {slide.cta}
-                  </Link>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </AnimatePresence>
       </motion.div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end bg-gradient-to-t from-[#141414] via-[#141414]/75 to-transparent pb-10 pt-28 md:pb-14">
+        <div className="pointer-events-auto mx-auto flex w-full max-w-[1400px] items-end px-4 md:px-6">
+          <div className="flex max-w-xl flex-col items-start gap-5 pr-28">
+            <h1 className="text-5xl leading-[1.05] tracking-[-0.04em] text-white md:text-6xl">
+              {slide.title}
+            </h1>
+            <p className="text-base text-white/90">
+              {product ? <Price amount={product.price} /> : "Made to order in Lagos."}
+            </p>
+            <Link
+              href={slide.href}
+              className="inline-flex h-11 items-center rounded-full bg-white px-5 text-sm text-[#141414] active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              {slide.cta}
+            </Link>
+          </div>
+        </div>
+      </div>
 
       <div className="absolute right-4 bottom-10 z-30 flex gap-2 md:right-6 md:bottom-14">
         <button

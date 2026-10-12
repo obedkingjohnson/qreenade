@@ -68,27 +68,17 @@ body {
 
 .product-slide {
   animation: product-slide 42s linear infinite;
+  animation-play-state: paused;
+}
+
+.product-slide.is-running {
+  animation-play-state: running;
+  will-change: transform;
 }
 
 .product-slide:hover {
   animation-play-state: paused;
-}
-
-@keyframes product-pan {
-  from {
-    transform: scale(1.14) translate3d(4%, 0, 0);
-  }
-  to {
-    transform: scale(1.14) translate3d(-4%, 0, 0);
-  }
-}
-
-.product-pan {
-  animation: product-pan 9s ease-in-out infinite alternate;
-}
-
-.product-pan-reverse {
-  animation-direction: alternate-reverse;
+  will-change: auto;
 }
 
 .logo-on-dark {
@@ -111,8 +101,7 @@ body {
   }
 
   .hero-drift,
-  .product-slide,
-  .product-pan {
+  .product-slide {
     animation: none;
   }
 }

@@ -52,9 +52,10 @@ function CategoryRow({
       >
         <Image
           src={category.image}
-          alt=""
+          alt={category.name}
           width={72}
           height={96}
+          sizes="48px"
           className="h-16 w-12 shrink-0 object-cover"
         />
         <span className="text-sm">{category.name}</span>
@@ -247,9 +248,10 @@ export function Header() {
                           >
                             <Image
                               src={product.image}
-                              alt=""
+                              alt={product.name}
                               width={40}
                               height={48}
+                              sizes="40px"
                               className="h-12 w-10 object-cover"
                             />
                             <span className="min-w-0">
@@ -353,9 +355,10 @@ export function Header() {
                       >
                         <Image
                           src={product.image}
-                          alt=""
+                          alt={product.name}
                           width={40}
                           height={48}
+                          sizes="40px"
                           className="h-12 w-10 object-cover"
                         />
                         <span className="text-sm">{product.name}</span>

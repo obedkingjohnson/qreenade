@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { CartView } from "@/components/cart-view";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Bag",
-  description: "Review pieces in your qreenade bag.",
-};
+  description: "Review pieces in your Qreenade bag.",
+  path: "/cart",
+  noindex: true,
+});
 
 export default function CartPage() {
   return (

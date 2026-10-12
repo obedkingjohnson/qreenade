@@ -47,9 +47,10 @@ export function CartView() {
             >
               <Image
                 src={product.image}
-                alt=""
+                alt={product.name}
                 width={96}
                 height={128}
+                sizes="96px"
                 className="h-32 w-24 object-cover"
               />
               <div className="min-w-0 flex-1">

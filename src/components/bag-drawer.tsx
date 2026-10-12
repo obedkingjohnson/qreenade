@@ -69,9 +69,10 @@ export function BagDrawer({
                   >
                     <Image
                       src={product.image}
-                      alt=""
+                      alt={product.name}
                       width={72}
                       height={96}
+                      sizes="72px"
                       className="h-24 w-[4.5rem] object-cover"
                     />
                     <div className="min-w-0 flex-1">

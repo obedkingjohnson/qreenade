@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { campaign } from "@/lib/catalog";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "About",
-  description: "The family studio behind qreenade, working in Lagos.",
-};
+  description: "The family studio behind Qreenade, making slow fashion in Lagos.",
+  path: "/about",
+  image: { url: campaign.story, alt: "Qreenade campaign photograph" },
+});
 
 export default function AboutPage() {
   return (
@@ -40,6 +43,7 @@ export default function AboutPage() {
           alt="Qreenade campaign photograph"
           width={1400}
           height={1600}
+          sizes="(min-width:1024px) 55vw, 100vw"
           className="aspect-[4/5] w-full object-cover"
         />
       </div>

@@ -40,9 +40,10 @@ export function ProductGallery({ product }: { product: Product }) {
             >
               <Image
                 src={src}
-                alt=""
+                alt={`${product.name}, photo ${index + 1}`}
                 width={96}
                 height={120}
+                sizes="64px"
                 className={`h-20 w-16 bg-surface ${src.endsWith("bucket-hat-red.jpg") ? "object-contain" : "object-cover"}`}
               />
             </button>

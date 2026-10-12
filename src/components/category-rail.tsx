@@ -20,9 +20,10 @@ export function CategoryRail() {
               <div className="aspect-[3/4] overflow-hidden bg-surface">
                 <Image
                   src={category.image}
-                  alt=""
+                  alt={category.name}
                   width={800}
                   height={1066}
+                  sizes="(min-width:1024px) 16vw, (min-width:768px) 33vw, 50vw"
                   className="size-full object-cover transition-transform duration-700 group-hover:scale-105 motion-reduce:transition-none"
                 />
               </div>
