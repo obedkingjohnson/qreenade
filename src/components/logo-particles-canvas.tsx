@@ -14,6 +14,9 @@ const BREEZE_GAP_MIN = 6000;
 const BREEZE_GAP_MAX = 8000;
 const BREEZE_SWEEP_MIN = 2400;
 const BREEZE_SWEEP_MAX = 3000;
+const BURST_MS = 200;
+const BURST_DIST = 48;
+const BURST_PX = 46;
 
 type Particle = {
   hx: number;
@@ -186,6 +189,9 @@ export default function LogoParticlesCanvas() {
     let resizeTimer = 0;
     let cancelled = false;
     const pointer = { x: 0, y: 0, vx: 0, vy: 0, active: false, seen: false };
+    let lastBurstAt = 0;
+    let lastBurstX = 0;
+    let lastBurstY = 0;
     let activeMs = 0;
     let clock = 0;
     let breezeAmp = 14;
@@ -363,30 +369,71 @@ export default function LogoParticlesCanvas() {
       else stopLoop();
     };
 
-    const placePointer = (event: PointerEvent, active: boolean) => {
+    const pointerPoint = (event: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
+      return { x: event.clientX - rect.left, y: event.clientY - rect.top };
+    };
+
+    const placePointer = (event: PointerEvent, active: boolean) => {
+      const point = pointerPoint(event);
       if (pointer.seen) {
-        pointer.vx += x - pointer.x;
-        pointer.vy += y - pointer.y;
+        pointer.vx += point.x - pointer.x;
+        pointer.vy += point.y - pointer.y;
       }
       pointer.seen = true;
-      pointer.x = x;
-      pointer.y = y;
+      pointer.x = point.x;
+      pointer.y = point.y;
       pointer.active = active;
     };
 
+    const burstAt = (x: number, y: number) => {
+      const radius = Math.max(84, Math.min(136, logoWidth * 0.2));
+      const radiusSq = radius * radius;
+      for (const particle of particles) {
+        const dx = particle.x - x;
+        const dy = particle.y - y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq >= radiusSq) continue;
+        const dist = Math.sqrt(distSq) || 0.001;
+        const falloff = 1 - dist / radius;
+        const push = falloff * BURST_PX;
+        const nx = distSq < 0.01 ? 0 : dx / dist;
+        const ny = distSq < 0.01 ? -1 : dy / dist;
+        particle.x += nx * push;
+        particle.y += ny * push;
+      }
+    };
+
+    const fireBurst = (x: number, y: number, force: boolean) => {
+      const now = performance.now();
+      const traveled = Math.hypot(x - lastBurstX, y - lastBurstY);
+      if (!force && lastBurstAt > 0 && now - lastBurstAt < BURST_MS && traveled < BURST_DIST) return;
+      lastBurstAt = now;
+      lastBurstX = x;
+      lastBurstY = y;
+      burstAt(x, y);
+    };
+
     const onPointerMove = (event: PointerEvent) => {
-      if (event.pointerType === "touch" && event.buttons === 0) return;
-      placePointer(event, true);
+      if (event.pointerType === "touch") {
+        if (event.buttons === 0) return;
+        placePointer(event, true);
+        return;
+      }
+      const point = pointerPoint(event);
+      fireBurst(point.x, point.y, false);
     };
     const onPointerDown = (event: PointerEvent) => {
-      if (canvas.setPointerCapture) canvas.setPointerCapture(event.pointerId);
-      placePointer(event, true);
+      if (event.isTrusted && canvas.setPointerCapture) canvas.setPointerCapture(event.pointerId);
+      if (event.pointerType === "touch") {
+        placePointer(event, true);
+        return;
+      }
+      const point = pointerPoint(event);
+      fireBurst(point.x, point.y, true);
     };
     const onPointerUp = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") pointer.active = false;
+      if (event.pointerType === "touch") pointer.active = false;
     };
     const onPointerLeave = () => {
       pointer.active = false;
