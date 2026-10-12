@@ -10,6 +10,10 @@ const MIN_STRIDE = 1.75;
 const ALPHA_MIN = 40;
 const LOGO_WIDTH_RATIO = 0.78;
 const LOGO_MAX_PX = 704;
+const BREEZE_GAP_MIN = 6000;
+const BREEZE_GAP_MAX = 8000;
+const BREEZE_SWEEP_MIN = 2400;
+const BREEZE_SWEEP_MAX = 3000;
 
 type Particle = {
   hx: number;
@@ -19,11 +23,23 @@ type Particle = {
   size: number;
   alpha: number;
   ease: number;
+  phase: number;
+  waveX: number;
+  waveY: number;
 };
 
 function unit(n: number) {
   const value = Math.sin(n * 127.1 + 311.7) * 43758.5453123;
   return value - Math.floor(value);
+}
+
+function noise1(x: number) {
+  const i = Math.floor(x);
+  const f = x - i;
+  const u = f * f * (3 - 2 * f);
+  const a = unit(i);
+  const b = unit(i + 1);
+  return a + (b - a) * u;
 }
 
 function pixelRatio() {
@@ -83,6 +99,7 @@ function sampleLogo(
         const hx = originX + sumX / sumA;
         const hy = originY + sumY / sumA;
         const n = index + 1;
+        const phase = unit(n * 8.2) * Math.PI * 2;
         let x = hx;
         let y = hy;
         if (scatter) {
@@ -99,6 +116,9 @@ function sampleLogo(
           size: 1 + unit(n * 1.7) * 0.5,
           alpha: 0.58 + (maxA / 255) * 0.34,
           ease: 0.84 + unit(n * 5.9) * 0.32,
+          phase,
+          waveX: Math.cos(phase),
+          waveY: Math.sin(phase),
         });
         index += 1;
       }
@@ -153,6 +173,7 @@ export default function LogoParticlesCanvas() {
     let cssWidth = 0;
     let cssHeight = 0;
     let logoWidth = LOGO_MAX_PX;
+    let originX = 0;
     let builtWidth = 0;
     let builtHeight = 0;
     let builtCap = 0;
@@ -165,13 +186,23 @@ export default function LogoParticlesCanvas() {
     let resizeTimer = 0;
     let cancelled = false;
     const pointer = { x: 0, y: 0, vx: 0, vy: 0, active: false, seen: false };
+    let activeMs = 0;
+    let clock = 0;
+    let breezeAmp = 14;
+    let breezeSerial = 1;
+    let breezeSweepMs = 2700;
+    let breezeStartMs = -1;
+    let breezeForward = true;
+    let nextBreezeMs = BREEZE_GAP_MIN + unit(2.4) * (BREEZE_GAP_MAX - BREEZE_GAP_MIN);
 
     const draw = () => {
       context.setTransform(pixelRatio(), 0, 0, pixelRatio(), 0, 0);
       context.clearRect(0, 0, cssWidth, cssHeight);
       context.fillStyle = "#f4f4f0";
+      const twinkleClock = clock * 0.0011;
       for (const particle of particles) {
-        context.globalAlpha = particle.alpha;
+        const twinkle = noise1(twinkleClock + particle.phase * 6.5);
+        context.globalAlpha = particle.alpha * (0.8 + twinkle * 0.2);
         context.fillRect(
           particle.x - particle.size * 0.5,
           particle.y - particle.size * 0.5,
@@ -182,7 +213,7 @@ export default function LogoParticlesCanvas() {
       context.globalAlpha = 1;
     };
 
-    const step = (dt: number, now: number) => {
+    const step = (dt: number) => {
       const radius = Math.max(84, Math.min(136, logoWidth * 0.2));
       const radiusSq = radius * radius;
       if (pointer.active) {
@@ -207,18 +238,54 @@ export default function LogoParticlesCanvas() {
         pointer.vy = 0;
       }
 
+      activeMs += dt * 16.6667;
+      clock = activeMs;
       if (introMs > 0) {
         introMs -= dt * 16.6667;
         if (introMs <= 0) introPending = false;
       }
 
+      if (breezeStartMs < 0 && introMs <= 0 && activeMs >= nextBreezeMs) {
+        breezeSerial += 1;
+        breezeStartMs = activeMs;
+        breezeSweepMs =
+          BREEZE_SWEEP_MIN + unit(breezeSerial * 3.1) * (BREEZE_SWEEP_MAX - BREEZE_SWEEP_MIN);
+      } else if (breezeStartMs >= 0 && activeMs - breezeStartMs >= breezeSweepMs) {
+        const gap = BREEZE_GAP_MIN + unit(breezeSerial * 4.3) * (BREEZE_GAP_MAX - BREEZE_GAP_MIN);
+        nextBreezeMs = breezeStartMs + gap;
+        breezeStartMs = -1;
+        breezeForward = !breezeForward;
+      }
+
+      let breezeProgress = -1;
+      if (breezeStartMs >= 0 && breezeSweepMs > 0) {
+        const linear = Math.min(1, (activeMs - breezeStartMs) / breezeSweepMs);
+        breezeProgress = linear * linear * (3 - 2 * linear);
+      }
+      const span = logoWidth > 1 ? logoWidth : 1;
+      const dir = breezeForward ? 1 : -1;
       const glide = 1 - Math.pow(0.958, dt);
       for (const particle of particles) {
-        const ox = Math.sin(now * 0.00045 + particle.hy * 0.02) * 0.35;
-        const oy = Math.cos(now * 0.00038 + particle.hx * 0.016) * 0.28;
-        const mix = glide * particle.ease;
-        particle.x += (particle.hx + ox - particle.x) * mix;
-        particle.y += (particle.hy + oy - particle.y) * mix;
+        let influence = 0;
+        let bx = 0;
+        let by = 0;
+        if (breezeProgress >= 0) {
+          const along = breezeForward
+            ? (particle.hx - originX) / span
+            : 1 - (particle.hx - originX) / span;
+          const front = breezeProgress * 1.62 - 0.31;
+          const dist = (along - front) / 0.22;
+          influence = Math.exp(-dist * dist);
+          bx = influence * breezeAmp * (dir * 0.34 + particle.waveX * 0.58);
+          by = influence * breezeAmp * (-0.55 + particle.waveY * 0.52);
+        }
+        const idleX =
+          (noise1(activeMs * 0.00026 + particle.phase * 1.6 + particle.hx * 0.015) - 0.5) * 6.4;
+        const idleY =
+          (noise1(activeMs * 0.00021 + particle.phase * 2.8 + particle.hy * 0.02 + 6) - 0.5) * 5.2;
+        const pull = glide * particle.ease * (1 + influence * 1.15);
+        particle.x += (particle.hx + idleX + bx - particle.x) * pull;
+        particle.y += (particle.hy + idleY + by - particle.y) * pull;
       }
     };
 
@@ -252,8 +319,9 @@ export default function LogoParticlesCanvas() {
       const aspect = still.naturalHeight / still.naturalWidth;
       logoWidth = stillRect.width > 2 ? stillRect.width : Math.min(rect.width * LOGO_WIDTH_RATIO, LOGO_MAX_PX);
       const logoHeight = stillRect.height > 2 ? stillRect.height : logoWidth * aspect;
-      const originX = stillRect.width > 2 ? stillRect.left - rect.left : (rect.width - logoWidth) / 2;
+      originX = stillRect.width > 2 ? stillRect.left - rect.left : (rect.width - logoWidth) / 2;
       const originY = stillRect.height > 2 ? stillRect.top - rect.top : (rect.height - logoHeight) / 2;
+      breezeAmp = Math.min(28, Math.max(16, logoHeight * 0.38));
       builtWidth = rect.width;
       builtHeight = rect.height;
       builtCap = cap;
@@ -274,7 +342,7 @@ export default function LogoParticlesCanvas() {
       raf = requestAnimationFrame(tick);
       const dt = last ? Math.min(2.2, (now - last) / 16.6667) : 1;
       last = now;
-      step(dt, now);
+      step(dt);
       draw();
     };
 
