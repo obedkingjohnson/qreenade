@@ -1,31 +1,74 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { validateContactFields } from "@/lib/contact";
 
-type Status = "idle" | "error" | "ready";
+type Status = "idle" | "sending" | "success" | "error";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [website, setWebsite] = useState("");
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!name.trim() || !email.trim() || !message.trim()) {
+    if (status === "sending") return;
+
+    const validationError = validateContactFields({ name, email, message });
+    if (validationError) {
       setStatus("error");
+      setError(validationError);
       return;
     }
-    const subject = encodeURIComponent(`Qreenade enquiry from ${name.trim()}`);
-    const body = encodeURIComponent(
-      `${message.trim()}\n\n${name.trim()}\n${email.trim()}`,
-    );
-    window.location.href = `mailto:qreenadebyamuta@gmail.com?subject=${subject}&body=${body}`;
-    setStatus("ready");
+
+    setStatus("sending");
+    setError("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          message: message.trim(),
+          website,
+        }),
+      });
+      const payload: unknown = await response.json().catch(() => null);
+      if (!response.ok) {
+        setStatus("error");
+        setError(readError(payload));
+        return;
+      }
+      setName("");
+      setEmail("");
+      setMessage("");
+      setWebsite("");
+      setStatus("success");
+    } catch {
+      setStatus("error");
+      setError("We could not send your message. Please try again.");
+    }
   }
 
   return (
-    <form onSubmit={onSubmit} className="mt-10 max-w-xl space-y-5" noValidate>
+    <form onSubmit={onSubmit} className="relative mt-10 max-w-xl space-y-5" noValidate>
+      <div className="pointer-events-none absolute h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(event) => setWebsite(event.target.value)}
+        />
+      </div>
       <div className="grid gap-2">
         <label htmlFor="name" className="text-sm">
           Name
@@ -65,26 +108,33 @@ export function ContactForm() {
           rows={5}
           className="rounded-xl border border-line bg-surface px-3 py-3 text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         />
-        <p className="text-sm text-mute">
-          This opens your email app, addressed to Qreenade.
-        </p>
       </div>
       {status === "error" && (
         <p className="text-sm text-ink" role="alert">
-          Add your name, email, and a message before sending.
+          {error}
         </p>
       )}
-      {status === "ready" && (
+      {status === "success" && (
         <p className="text-sm text-mute" role="status">
-          Your email app should open with this message.
+          Thanks, we&apos;ll be in touch soon.
         </p>
       )}
       <button
         type="submit"
-        className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm text-paper active:scale-[0.98]"
+        disabled={status === "sending"}
+        aria-busy={status === "sending"}
+        className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm text-paper active:scale-[0.98] disabled:opacity-60"
       >
-        Email us
+        {status === "sending" ? "Sending..." : "Send message"}
       </button>
     </form>
   );
+}
+
+function readError(payload: unknown) {
+  if (payload && typeof payload === "object" && "error" in payload) {
+    const message = (payload as { error?: unknown }).error;
+    if (typeof message === "string" && message.trim()) return message;
+  }
+  return "We could not send your message. Please try again.";
 }
