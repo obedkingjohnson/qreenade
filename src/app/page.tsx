@@ -40,8 +40,7 @@ export default function HomePage() {
           </h2>
           <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-mute">
             Every design is a wearable work of art, thoughtfully crafted and
-            made for you. The family studio in Lagos guides the artisans who
-            finish each piece.
+            made for you. We guide the artisans in Lagos who finish each piece.
           </p>
           <p className="mt-4 max-w-[52ch] text-base leading-relaxed text-mute">
             Choosing a piece supports that community, and the pace of slow

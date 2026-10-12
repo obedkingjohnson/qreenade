@@ -106,14 +106,14 @@ export function CartView() {
         </div>
         <DeliveryNote subtotal={subtotal} className="mt-3 text-sm leading-relaxed text-mute" />
         <p className="mt-4 text-sm leading-relaxed text-mute">
-          Checkout is handled by the studio. Email the order from the contact
+          Checkout is handled by Qreenade. Email the order from the contact
           page and the team will confirm it.
         </p>
         <Link
           href="/contact"
           className="mt-5 flex h-11 items-center justify-center rounded-full bg-ink text-sm text-paper"
         >
-          Email the studio
+          Email us
         </Link>
       </aside>
     </div>

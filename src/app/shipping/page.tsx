@@ -24,12 +24,12 @@ export default function ShippingPage() {
         <section>
           <h2 className="text-xl tracking-tight">Production</h2>
           <p className="mt-3 max-w-[36ch] leading-relaxed text-mute">
-            Pieces are made to order. Allow up to 14 working days before a
-            parcel leaves the studio.
+            Pieces are made to order. Allow up to 14 working days before your
+            parcel leaves Lagos.
           </p>
         </section>
         <section>
-          <h2 className="text-xl tracking-tight">Studio</h2>
+          <h2 className="text-xl tracking-tight">Where we are</h2>
           <p className="mt-3 max-w-[36ch] leading-relaxed text-mute">
             Everything is finished in Lagos. Questions about a parcel go to
             qreenadebyamuta@gmail.com.

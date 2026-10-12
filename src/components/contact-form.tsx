@@ -66,7 +66,7 @@ export function ContactForm() {
           className="rounded-xl border border-line bg-surface px-3 py-3 text-ink outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
         />
         <p className="text-sm text-mute">
-          This opens your email app, addressed to the studio.
+          This opens your email app, addressed to Qreenade.
         </p>
       </div>
       {status === "error" && (
@@ -83,7 +83,7 @@ export function ContactForm() {
         type="submit"
         className="inline-flex h-11 items-center rounded-full bg-ink px-5 text-sm text-paper active:scale-[0.98]"
       >
-        Email the studio
+        Email us
       </button>
     </form>
   );
