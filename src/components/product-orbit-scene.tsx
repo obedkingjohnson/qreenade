@@ -221,14 +221,10 @@ export default function ProductOrbitScene({ progress }: { progress: Progress }) 
         const rightPoint = place(1.575, 0, 0);
         const topPoint = place(0, 0.265, 0);
         if (center && rightPoint && topPoint) {
-          let rx = rightPoint.x - center.x;
-          let ry = rightPoint.y - center.y;
+          const rx = rightPoint.x - center.x;
+          const ry = rightPoint.y - center.y;
           const ux = topPoint.x - center.x;
           const uy = topPoint.y - center.y;
-          if (rx * uy - ry * ux < 0) {
-            rx = -rx;
-            ry = -ry;
-          }
           if (Math.hypot(rx, ry) > 2) {
             context.save();
             context.transform(
