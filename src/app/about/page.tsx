@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 md:py-14">
       <h1 className="max-w-[14ch] text-4xl tracking-tight md:text-6xl">
-        A family business in Lagos
+        A family studio in Lagos
       </h1>
       <div className="mt-10 grid items-start gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="max-w-[48ch] space-y-4 text-base leading-relaxed text-mute">
