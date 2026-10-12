@@ -5,7 +5,7 @@ export const SITE_URL = "https://qreenade.vercel.app";
 export const SITE_NAME = "Qreenade";
 export const SITE_TITLE = "Qreenade, handmade slow fashion from Lagos";
 export const SITE_DESCRIPTION =
-  "Handmade slow fashion from Lagos. Dresses, skirts, sets, and bags made to order in a family studio.";
+  "Handmade slow fashion from Lagos. Dresses, skirts, sets, and bags are made to order by our artisans.";
 export const INSTAGRAM_URL = "https://www.instagram.com/qreenade";
 
 export const siteTitle = {

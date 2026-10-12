@@ -9,7 +9,7 @@ export function Footer() {
         <div className="md:col-span-1">
           <BrandMark className="h-10 w-[14.5rem]" />
           <p className="mt-2 max-w-[24ch] text-sm leading-relaxed text-mute">
-            Slow fashion from a family studio in Lagos.
+            Handmade slow fashion from Lagos.
           </p>
         </div>
         <div>
@@ -48,7 +48,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <p className="text-sm">Studio</p>
+          <p className="text-sm">Contact</p>
           <p className="mt-3 text-sm text-mute">Lagos, Nigeria</p>
           <a
             href="mailto:qreenadebyamuta@gmail.com"

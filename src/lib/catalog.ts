@@ -17,8 +17,8 @@ export type Category = {
   image: string;
 };
 
-const studio =
-  "Made to order in the Lagos studio. Allow up to 14 working days.";
+const madeToOrder =
+  "Made to order in Lagos. Allow up to 14 working days.";
 
 export const products: Product[] = [
   {
@@ -38,7 +38,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/853578415/6034522410.png",
     ],
     aspect: "tall",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-ria-dress",
@@ -55,7 +55,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4384615344",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "lace-up-tank",
@@ -72,7 +72,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/853150090/6022073234.png",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-ifan-skirt",
@@ -90,7 +90,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4525284100.png",
     ],
     aspect: "tall",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-taco-bag",
@@ -104,7 +104,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/739959650/5702193766.png",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-party-dress",
@@ -121,7 +121,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5023041459.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-tulle-skirt",
@@ -139,7 +139,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/817629204/5654499004.png",
     ],
     aspect: "tall",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-uko-bag",
@@ -153,7 +153,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5093925765.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-tulle-dress",
@@ -171,7 +171,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5405899935.png",
     ],
     aspect: "tall",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-mie-set",
@@ -190,7 +190,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5030723958.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "adjustable-bucket-hat",
@@ -210,7 +210,7 @@ export const products: Product[] = [
     aspect: "square",
     summary:
       "Chunky bucket hat made from T-shirt yarn or paracord, with a rope to adjust the size. It runs big. " +
-      studio,
+      madeToOrder,
   },
   {
     slug: "the-noyi-mini-bag",
@@ -225,7 +225,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4316247726",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-cloud-purse-1",
@@ -237,7 +237,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4301093032",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "tia-mini-bag",
@@ -252,7 +252,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4316261796",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-checkered-bag",
@@ -266,7 +266,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4316252658",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-man-purse",
@@ -281,7 +281,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4316265763",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "illusion-mesh-macrame-dress",
@@ -299,7 +299,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/655302964/5019622699.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-net-bag",
@@ -316,7 +316,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4316168493",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-striped-party-dress",
@@ -337,7 +337,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/655510008/5019627049.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "tia-midi-bag",
@@ -353,7 +353,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317178760",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-yakhi-bag",
@@ -368,7 +368,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317197730",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "tia-maxi-bag",
@@ -385,7 +385,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317190955",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-mesh-dress",
@@ -400,7 +400,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4326082327",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "cloud-purse-2",
@@ -413,7 +413,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317274954",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "japanese-knot-bag",
@@ -426,7 +426,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317298205",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-mesh-set",
@@ -443,7 +443,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5019623199.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-noyi-midi-bag",
@@ -458,7 +458,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317285615",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-noyi-baguette",
@@ -472,7 +472,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317312804",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-noyi-maxi",
@@ -488,7 +488,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4317298000",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "tia-mini-t-shirt-yarn",
@@ -501,7 +501,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4409302411",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-ifan-short-set",
@@ -518,7 +518,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4483085990.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-ifan-skirt-set",
@@ -535,7 +535,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5019622629.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-ribbon-bag",
@@ -554,7 +554,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4684309007.png",
     ],
     aspect: "square",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     // Live category is Shorts, which is not one of the six storefront categories. Skirts is the closest lower-body group.
@@ -571,7 +571,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/4821695222.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-maki-dress",
@@ -589,7 +589,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/765185375/5030769622.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-zem-dress",
@@ -608,7 +608,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/5032210835.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-side-fringed-skirt",
@@ -626,7 +626,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/765738334/5039498416.png",
     ],
     aspect: "tall",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-sway-dress",
@@ -642,7 +642,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/798797517/5405856940.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-flare-top",
@@ -657,7 +657,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/799434233/5416390765.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
   {
     slug: "the-cuba-set",
@@ -674,7 +674,7 @@ export const products: Product[] = [
       "https://d2j6dbq0eux0bg.cloudfront.net/images/103018036/products/854291139/6053764470.png",
     ],
     aspect: "portrait",
-    summary: studio,
+    summary: madeToOrder,
   },
 
 ];
@@ -733,7 +733,7 @@ export const campaign = {
     {
       src: "https://d2gt4h1eeousrn.cloudfront.net/103018036/cover-VK2C5V/f0kPbuS-2000x2000.jpg",
       alt: "Qreenade lookbook still",
-      caption: "The studio",
+      caption: "Made in Lagos",
     },
     {
       src: "https://d2gt4h1eeousrn.cloudfront.net/103018036/cover-spocB8/cDiQc0S-2000x2000.jpg",
