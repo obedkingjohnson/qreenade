@@ -5,16 +5,15 @@ import { AddToBag } from "@/components/add-to-bag";
 import { AiTryOn } from "@/components/ai-try-on";
 import { ProductCard } from "@/components/product-card";
 import { ProductGallery } from "@/components/product-gallery";
+import { JsonLd } from "@/components/json-ld";
 import {
-  categories,
+  getCategory,
   getProduct,
   products,
   productsIn,
 } from "@/lib/catalog";
 import { Price } from "@/components/price";
-import { formatFromNgn } from "@/lib/currency";
-import { getDisplayCurrency } from "@/lib/currency-request";
-import { getFxRates } from "@/lib/fx";
+import { pageMetadata, productJsonLd } from "@/lib/site";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -26,11 +25,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = getProduct(slug);
   if (!product) return { title: "Piece" };
-  const [currency, rates] = await Promise.all([getDisplayCurrency(), getFxRates()]);
-  return {
-    title: product.name,
-    description: `${product.name}. ${formatFromNgn(product.price, currency, rates)}. ${product.summary}`,
-  };
+  const category = getCategory(product.category);
+  return pageMetadata({
+    title: `${product.name}, ${category?.name ?? "Piece"}`,
+    description: product.summary,
+    path: `/product/${product.slug}`,
+    image: { url: product.image, alt: product.name },
+  });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -38,13 +39,16 @@ export default async function ProductPage({ params }: Props) {
   const product = getProduct(slug);
   if (!product) notFound();
 
-  const category = categories.find((item) => item.slug === product.category);
+  const category = getCategory(product.category);
   const related = productsIn(product.category)
     .filter((item) => item.slug !== product.slug)
     .slice(0, 3);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-8 md:px-6 md:py-12">
+      <JsonLd
+        data={productJsonLd(product, category?.name ?? "Store")}
+      />
       <p className="text-sm text-mute">
         <Link href="/shop" className="hover:text-ink">
           Store

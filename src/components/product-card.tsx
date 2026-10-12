@@ -20,6 +20,7 @@ export function ProductCard({
             alt={product.name}
             width={800}
             height={1000}
+            sizes="(min-width:1024px) 25vw, (min-width:768px) 33vw, 50vw"
             className="size-full object-cover"
           />
         </ScrollPhoto>

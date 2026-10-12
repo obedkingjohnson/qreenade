@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Price } from "@/components/price";
 import { UK_FREE_DELIVERY } from "@/lib/catalog";
+import { pageMetadata } from "@/lib/site";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
   title: "Shipping",
-  description: "Delivery and production times for qreenade orders.",
-};
+  description: "Delivery and production times for Qreenade orders, made in Lagos.",
+  path: "/shipping",
+});
 
 export default function ShippingPage() {
   return (

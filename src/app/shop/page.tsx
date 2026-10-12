@@ -1,25 +1,42 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { categories, productsIn } from "@/lib/catalog";
+import { JsonLd } from "@/components/json-ld";
 import { ProductMasonry } from "@/components/product-card";
 import { cn } from "@/lib/cn";
+import { pageMetadata, shopJsonLd } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Store",
-  description: "Dresses, skirts, tops, sets, and bags from qreenade.",
+type ShopProps = {
+  searchParams: Promise<{ category?: string }>;
 };
 
-export default async function ShopPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ category?: string }>;
-}) {
+export async function generateMetadata({ searchParams }: ShopProps): Promise<Metadata> {
+  const { category } = await searchParams;
+  const active = categories.find((item) => item.slug === category);
+  if (!active) {
+    return pageMetadata({
+      title: "Store",
+      description:
+        "Dresses, skirts, tops, sets, bags, and hats from Qreenade, made to order in Lagos.",
+      path: "/shop",
+    });
+  }
+  return pageMetadata({
+    title: active.name,
+    description: `${active.name} from Qreenade, handmade in Lagos and made to order.`,
+    path: `/shop?category=${active.slug}`,
+    image: { url: active.image, alt: active.name },
+  });
+}
+
+export default async function ShopPage({ searchParams }: ShopProps) {
   const { category } = await searchParams;
   const active = categories.find((item) => item.slug === category);
   const items = productsIn(active?.slug);
 
   return (
     <div className="mx-auto max-w-[1400px] px-4 py-10 md:px-6 md:py-14">
+      <JsonLd data={shopJsonLd(active)} />
       <h1 className="text-4xl tracking-tight md:text-5xl">
         {active ? active.name : "Store"}
       </h1>

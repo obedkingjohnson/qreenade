@@ -20,6 +20,12 @@ type ScrollRevealImageProps = {
   toScale?: number;
 };
 
+function sideInset(width: string) {
+  const value = Number.parseFloat(width);
+  if (!Number.isFinite(value)) return 0;
+  return Math.max(0, (100 - value) / 2);
+}
+
 export function ScrollRevealImage({
   src,
   alt,
@@ -36,10 +42,11 @@ export function ScrollRevealImage({
     offset: ["start end", "center center"],
   });
 
-  const width = useSpring(
-    useTransform(scrollYProgress, [0, 1], [fromWidth, toWidth]),
+  const inset = useSpring(
+    useTransform(scrollYProgress, [0, 1], [sideInset(fromWidth), sideInset(toWidth)]),
     { stiffness: 120, damping: 80 },
   );
+  const clipPath = useTransform(inset, (value) => `inset(0% ${value}% 0% ${value}%)`);
   const scale = useSpring(
     useTransform(scrollYProgress, [0, 1], [fromScale, toScale]),
     { stiffness: 120, damping: 80 },
@@ -54,17 +61,12 @@ export function ScrollRevealImage({
   }
 
   return (
-    <motion.div
-      ref={containerRef}
-      className="relative mx-auto overflow-hidden"
-      style={{ width, height }}
-    >
-      <motion.div
-        className="absolute top-0 left-1/2 h-full w-full"
-        style={{ x: "-50%", scale }}
-      >
-        <Image src={src} alt={alt} fill sizes="100vw" className="object-cover" />
+    <div ref={containerRef} className="relative w-full overflow-hidden" style={{ height }}>
+      <motion.div className="absolute inset-0" style={{ clipPath }}>
+        <motion.div className="absolute inset-0" style={{ scale }}>
+          <Image src={src} alt={alt} fill sizes="100vw" className="object-cover" />
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

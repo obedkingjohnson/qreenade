@@ -1,15 +1,23 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Hero } from "@/components/hero";
 import { CategoryRail } from "@/components/category-rail";
+import { JsonLd } from "@/components/json-ld";
 import { ProductReel } from "@/components/product-reel";
 import { ScrollRevealImage } from "@/components/scroll-reveal-image";
 import { Testimonials } from "@/components/testimonials";
 import { campaign, products } from "@/lib/catalog";
+import { homeJsonLd } from "@/lib/site";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default function HomePage() {
   return (
     <>
+      <JsonLd data={homeJsonLd()} />
       <Hero />
       <CategoryRail />
       <ProductReel products={products} />
@@ -63,6 +71,8 @@ export default function HomePage() {
                     alt={still.alt}
                     width={1400}
                     height={1200}
+                    sizes="(min-width:768px) 50vw, 100vw"
+                    priority={index === 0}
                     className={`w-full object-cover ${
                       index === 0 ? "aspect-[16/10]" : "aspect-[4/5]"
                     }`}

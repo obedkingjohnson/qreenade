@@ -9,6 +9,13 @@ import { Price } from "@/components/price";
 import { UK_FREE_DELIVERY } from "@/lib/catalog";
 import { getDisplayCurrency } from "@/lib/currency-request";
 import { getFxRates } from "@/lib/fx";
+import {
+  DEFAULT_OG_IMAGE,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+  siteTitle,
+} from "@/lib/site";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -16,12 +23,25 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: {
-    default: "qreenade",
-    template: "%s · qreenade",
+  metadataBase: new URL(SITE_URL),
+  title: siteTitle,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_NG",
+    title: siteTitle,
+    description: SITE_DESCRIPTION,
+    url: "/",
+    images: [DEFAULT_OG_IMAGE],
   },
-  description:
-    "Slow fashion by Amuta. Dresses, skirts, sets, and bags made to order in Lagos.",
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: SITE_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE.url],
+  },
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
