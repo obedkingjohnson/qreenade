@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { INDEXING_ALLOWED } from "@/lib/indexing";
 import { campaign, type Product } from "@/lib/catalog";
 
 export const SITE_URL = "https://qreenade.vercel.app";
@@ -61,7 +62,8 @@ export function pageMetadata({
       images: [ogImage.url],
     },
   };
-  if (noindex) metadata.robots = { index: false };
+  if (!INDEXING_ALLOWED) metadata.robots = { index: false, follow: false };
+  else if (noindex) metadata.robots = { index: false };
   return metadata;
 }
 
