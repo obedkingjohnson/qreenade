@@ -33,6 +33,15 @@ export function senderEmail(from: string) {
   return email;
 }
 
+/** Submissions sent sooner than this after the form appears are treated as bots. */
+export const MIN_FILL_MS = 2000;
+
+export function contactSentTooFast(startedAt: unknown, now = Date.now()) {
+  const started = typeof startedAt === "number" ? startedAt : Number(startedAt);
+  if (!Number.isFinite(started) || started <= 0) return true;
+  return now - started < MIN_FILL_MS;
+}
+
 export function contactHoneypotTripped(value: unknown) {
   if (typeof value === "string") return value.trim().length > 0;
   return value != null;

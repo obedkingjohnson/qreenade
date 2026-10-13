@@ -1,5 +1,5 @@
 import { connection } from "next/server";
-import { DEFAULT_CONTACT_FROM, DEFAULT_CONTACT_TO, contactHoneypotTripped, validateContactFields } from "@/lib/contact";
+import { DEFAULT_CONTACT_FROM, DEFAULT_CONTACT_TO, contactHoneypotTripped, contactSentTooFast, validateContactFields } from "@/lib/contact";
 import { ContactConfigError, ContactDeliveryError, sendContactEmail } from "@/lib/contact-mail";
 import { clientKeyFromRequest, ContactLimitError, takeContactRateLimit } from "@/lib/contact-limit";
 
@@ -29,7 +29,11 @@ export async function POST(request: Request) {
       return json({ ok: true });
     }
 
-    takeContactRateLimit(clientKeyFromRequest(request));
+    if (contactSentTooFast(field(body, "startedAt"))) {
+      return json({ error: "That was quick. Please wait a moment and send again." }, 400);
+    }
+
+    await takeContactRateLimit(clientKeyFromRequest(request));
 
     const name = stringField(body, "name");
     const email = stringField(body, "email");

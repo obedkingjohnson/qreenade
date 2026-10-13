@@ -1,8 +1,11 @@
 import type { MetadataRoute } from "next";
 import { categories, products } from "@/lib/catalog";
+import { INDEXING_ALLOWED } from "@/lib/indexing";
 import { SITE_URL } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  if (!INDEXING_ALLOWED) return [];
+
   const lastModified = new Date();
 
   const pages: MetadataRoute.Sitemap = [

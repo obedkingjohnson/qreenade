@@ -9,6 +9,7 @@ import { Price } from "@/components/price";
 import { UK_FREE_DELIVERY } from "@/lib/catalog";
 import { getDisplayCurrency } from "@/lib/currency-request";
 import { getFxRates } from "@/lib/fx";
+import { INDEXING_ALLOWED } from "@/lib/indexing";
 import {
   DEFAULT_OG_IMAGE,
   SITE_DESCRIPTION,
@@ -27,6 +28,7 @@ export const metadata: Metadata = {
   title: siteTitle,
   description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
+  ...(INDEXING_ALLOWED ? {} : { robots: { index: false, follow: false } }),
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

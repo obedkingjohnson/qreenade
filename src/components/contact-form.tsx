@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { validateContactFields } from "@/lib/contact";
 
 type Status = "idle" | "sending" | "success" | "error";
@@ -12,6 +12,11 @@ export function ContactForm() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [website, setWebsite] = useState("");
+  const startedAt = useRef(0);
+
+  useEffect(() => {
+    startedAt.current = Date.now();
+  }, []);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,6 +41,7 @@ export function ContactForm() {
           email: email.trim(),
           message: message.trim(),
           website,
+          startedAt: startedAt.current,
         }),
       });
       const payload: unknown = await response.json().catch(() => null);
@@ -48,6 +54,7 @@ export function ContactForm() {
       setEmail("");
       setMessage("");
       setWebsite("");
+      startedAt.current = Date.now();
       setStatus("success");
     } catch {
       setStatus("error");
